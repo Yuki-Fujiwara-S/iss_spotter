@@ -43,11 +43,9 @@ const fetchCoordsByIP = function(ip, callback) {
       return;
     }
 
-    const GEOCoords = JSON.parse(body);
-    const GeoObj = {};
-    GeoObj.latitude = GEOCoords.latitude;
-    GeoObj.longitude = GEOCoords.latitude;
-    callback(error, GeoObj);
+    const { latitude, longitude } = JSON.parse(body);
+
+    callback(null, { latitude, longitude });
   });
 // use request to fetch IP address from JSON API
 };
