@@ -30,6 +30,28 @@ const fetchMyIP = function(callback) {
 // use request to fetch IP address from JSON API
 };
 
+const fetchCoordsByIP = function(ip, callback) {
+  request(`https://freegeoip.app/json/${ip}`, (error, response, body) => {
+    if (error) {
+      callback(error, null);
+      return;
+    }
+    // if non-200 status, assume server error
+  if (response.statusCode !== 200) {
+    const msg = `Status Code ${response.statusCode} when fetching coordinates for IP. Response: ${body}`;
+    callback(Error(msg), null);
+    return;
+  }
+
+    const GEOCoords = JSON.parse(body);
+    const GeoObj = {};
+    GeoObj.latitude = GEOCoords.latitude;
+    GeoObj.longitude = GEOCoords.latitude;
+    callback(error, GeoObj);
+  });
+// use request to fetch IP address from JSON API
+};
 
 
-module.exports = { fetchMyIP };
+
+module.exports = { fetchMyIP, fetchCoordsByIP };
